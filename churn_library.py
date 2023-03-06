@@ -2,6 +2,7 @@
 This module holds several functions used to analyse and predict Customer Churn
 """
 import logging
+import joblib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -282,7 +283,12 @@ def train_models(feat_train, feat_test, label_train, label_test, output_pth):
     y_test_preds_lr = lrc.predict(feat_test)
 
     lrc_plot = RocCurveDisplay.from_estimator(lrc, feat_test, label_test)
-
+    
+    logging.info("Saving models under './models/")
+    joblib.dump(cv_rfc.best_estimator_, './models/rfc_model.pkl')
+    joblib.dump(lrc, './models/logistic_model.pkl')
+    logging.info('SUCCESS: Models saved successfully')
+    
     plt.figure(figsize=(15, 8))
     ax = plt.gca()
     rfc_disp = RocCurveDisplay.from_estimator(
@@ -304,7 +310,6 @@ def train_models(feat_train, feat_test, label_train, label_test, output_pth):
 
 
 if __name__ == "__main__":
-    print("It works!")
     df = import_data("./data/BankChurners.csv")
     perform_eda(df)
     df = encoder_helper(df, cat_columns, "Churn")

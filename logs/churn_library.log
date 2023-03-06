@@ -13,3 +13,5 @@ root - INFO - Encoding column Education_Level
 root - INFO - Encoding column Marital_Status
 root - INFO - Encoding column Income_Category
 root - INFO - Encoding column Card_Category
+root - INFO - Saving models under './models/
+root - INFO - SUCCESS: Models saved successfully
