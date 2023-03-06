@@ -1,0 +1,15 @@
+root - INFO - file path = './data/BankChurners.csv'
+root - INFO - SUCCESS: Data imported successfully
+root - INFO - SUCCESS: hist_plot saved successfully.
+root - INFO - SUCCESS: marital status saved successfully.
+root - INFO - SUCCESS: Total_Trans_Ct histplot saved.
+root - INFO - Encoding column Gender
+root - INFO - Encoding column Education_Level
+root - INFO - Encoding column Marital_Status
+root - INFO - Encoding column Income_Category
+root - INFO - Encoding column Card_Category
+root - INFO - Encoding column Gender
+root - INFO - Encoding column Education_Level
+root - INFO - Encoding column Marital_Status
+root - INFO - Encoding column Income_Category
+root - INFO - Encoding column Card_Category

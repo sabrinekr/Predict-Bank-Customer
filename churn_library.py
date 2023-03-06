@@ -1,17 +1,31 @@
 """
 This module holds several functions used to analyse and predict Customer Churn
 """
+import logging
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 from sklearn.metrics import RocCurveDisplay, classification_report
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 sns.set()
 
+logging.basicConfig(
+    filename='./logs/churn_library.log',
+    level=logging.INFO,
+    filemode='w',
+    format='%(name)s - %(levelname)s - %(message)s')
+
+cat_columns = [
+    'Gender',
+    'Education_Level',
+    'Marital_Status',
+    'Income_Category',
+    'Card_Category']
 
 def import_data(pth):
     '''
@@ -22,7 +36,9 @@ def import_data(pth):
     output:
             df: pandas dataframe
     '''
+    logging.info("file path = '%s'", pth)
     loaded_df = pd.read_csv(pth)
+    logging.info("SUCCESS: Data imported successfully")
     return loaded_df
 
 
@@ -42,12 +58,15 @@ def perform_eda(loaded_df):
     save_fig(churn_hist, 'images/churn_hist.png')
     age_hist = loaded_df['Customer_Age'].hist().get_figure()
     save_fig(age_hist, 'images/age_hist.png')
+    logging.info("SUCCESS: hist_plot saved successfully.")
     marital_status_plot = loaded_df.Marital_Status.value_counts(
         'normalize').plot(kind='bar').get_figure()
     save_fig(marital_status_plot, 'images/marital_status_plot.png')
+    logging.info("SUCCESS: marital status saved successfully.")
     total_trans_ct_plot = sns.histplot(
         loaded_df['Total_Trans_Ct'], stat='density', kde=True).get_figure()
     save_fig(total_trans_ct_plot, 'images/total_trans_ct_plot.png')
+    logging.info("SUCCESS: Total_Trans_Ct histplot saved.")
     heatmap = sns.heatmap(loaded_df.corr(), annot=False, cmap='Dark2_r', linewidths=2).get_figure()
     save_fig(heatmap, 'images/heatmap.png')
     return loaded_df
@@ -63,7 +82,6 @@ def save_fig(plot, folder_path):
     output:
             None
     '''
-    #fig = plot.get_figure()
     plot.savefig(folder_path)
 
 
@@ -82,6 +100,7 @@ def encoder_helper(loaded_df, category_lst, response):
     '''
     encoder_df = loaded_df.copy(deep=True)
     for cat in category_lst:
+        logging.info('Encoding column %s', cat)
         groups = loaded_df.groupby(cat).mean()['Churn']
         column_lst = [groups.loc[val] for val in loaded_df[cat]]
         if response:
@@ -103,12 +122,6 @@ def perform_feature_engineering(loaded_df, response):
               y_train: y training data
               y_test: y testing data
     '''
-    cat_columns = [
-        'Gender',
-        'Education_Level',
-        'Marital_Status',
-        'Income_Category',
-        'Card_Category']
     loaded_df = encoder_helper(loaded_df, cat_columns, response)
     feats = pd.DataFrame()
     label = loaded_df['Churn']
@@ -288,3 +301,12 @@ def train_models(feat_train, feat_test, label_train, label_test, output_pth):
                                 y_test_preds_rf)
 
     feature_importance_plot(cv_rfc, feat_train, output_pth)
+
+
+if __name__ == "__main__":
+    print("It works!")
+    df = import_data("./data/BankChurners.csv")
+    perform_eda(df)
+    df = encoder_helper(df, cat_columns, "Churn")
+    X_train, X_test, y_train, y_test = perform_feature_engineering(df, "Churn")
+    train_models(X_train, X_test, y_train, y_test, "output/")
