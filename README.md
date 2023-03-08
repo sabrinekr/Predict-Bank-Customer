@@ -10,6 +10,13 @@ This project follows coding(PEP8) and engineering best practices for implementin
 # Data
 This dataset was taken from Kaggle It consists of 10,000 customers mentioning their age, salary, marital_status, credit card limit, credit card category, etc.
 
+# Files
+
+* `churn_notebook.ipynb`: The provided starter notebook which is messy
+* `churn_library.py`: the clean script version of the starter notebook
+* `churn_script_logging_and_tests.py`: the testing file
+
+
 # Install Dependencies 
 You can install the dependecies by running the following command:
 ```
