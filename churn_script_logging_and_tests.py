@@ -155,5 +155,7 @@ def test_train_models(train_models):
     try:
         _ = train_models
         logging.info('Test train_models: SUCCESS')
+        os.path.exists('./models/rfc_model.pkl')
+        os.path.exists('./models/logistic_model.pkl')
     except BaseException:
         logging.exception('Test train_models: Unexpected Error')
