@@ -1,5 +1,8 @@
 """
 This module holds several functions used to analyse and predict Customer Churn
+
+Author: Sabrine Krichen
+Date: Mar 2023
 """
 import logging
 import joblib

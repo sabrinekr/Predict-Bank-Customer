@@ -1,5 +1,8 @@
 """
 This module tests the Churn Library functions.
+
+Author: Sabrine Krichen
+Date: Mar 2023
 """
 import os
 import logging
