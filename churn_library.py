@@ -67,10 +67,15 @@ def perform_eda(loaded_df):
         'normalize').plot(kind='bar').get_figure()
     save_fig(marital_status_plot, 'images/marital_status_plot.png')
     logging.info("SUCCESS: marital status saved successfully.")
-    total_trans_ct_plot = sns.histplot(
-        loaded_df['Total_Trans_Ct'], stat='density', kde=True).get_figure()
-    save_fig(total_trans_ct_plot, 'images/total_trans_ct_plot.png')
+
+
+    plt.figure(figsize=(20, 10))
+    sns.histplot(df['Total_Trans_Ct'], stat='density', kde=True)
+    path = './images/Total_Trans_Ct.png'
+    plt.savefig(path)
     logging.info("SUCCESS: Total_Trans_Ct histplot saved.")
+    plt.close()
+    
     heatmap = sns.heatmap(loaded_df.corr(), annot=False, cmap='Dark2_r', linewidths=2).get_figure()
     save_fig(heatmap, 'images/heatmap.png')
     return loaded_df
@@ -315,6 +320,6 @@ def train_models(feat_train, feat_test, label_train, label_test, output_pth):
 if __name__ == "__main__":
     df = import_data("./data/BankChurners.csv")
     perform_eda(df)
-    df = encoder_helper(df, cat_columns, "Churn")
-    X_train, X_test, y_train, y_test = perform_feature_engineering(df, "Churn")
-    train_models(X_train, X_test, y_train, y_test, "output/")
+    # df = encoder_helper(df, cat_columns, "Churn")
+    # X_train, X_test, y_train, y_test = perform_feature_engineering(df, "Churn")
+    # train_models(X_train, X_test, y_train, y_test, "output/")
