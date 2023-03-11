@@ -320,6 +320,6 @@ def train_models(feat_train, feat_test, label_train, label_test, output_pth):
 if __name__ == "__main__":
     df = import_data("./data/BankChurners.csv")
     perform_eda(df)
-    # df = encoder_helper(df, cat_columns, "Churn")
-    # X_train, X_test, y_train, y_test = perform_feature_engineering(df, "Churn")
-    # train_models(X_train, X_test, y_train, y_test, "output/")
+    df = encoder_helper(df, cat_columns, "Churn")
+    X_train, X_test, y_train, y_test = perform_feature_engineering(df, "Churn")
+    train_models(X_train, X_test, y_train, y_test, "output/")
