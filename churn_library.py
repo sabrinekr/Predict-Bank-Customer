@@ -70,7 +70,7 @@ def perform_eda(loaded_df):
 
 
     plt.figure(figsize=(20, 10))
-    sns.histplot(df['Total_Trans_Ct'], stat='density', kde=True)
+    sns.histplot(loaded_df['Total_Trans_Ct'], stat='density', kde=True)
     path = './images/Total_Trans_Ct.png'
     plt.savefig(path)
     logging.info("SUCCESS: Total_Trans_Ct histplot saved.")
